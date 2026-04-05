@@ -1,17 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
-
-export const cores = {
-  corDeFundo: '#fff8f2',
-  vermelhoClaro: '#E66767',
-  bege: '#FFEBD9',
-  branco: '#fff'
-}
-
-export const breakpoints = {
-  desktop: '1024px',
-  tablet: '768px',
-  mobile: '435px'
-}
+import styled, { createGlobalStyle } from 'styled-components'
 
 export const GlobalCss = createGlobalStyle`
   * {
@@ -24,20 +11,19 @@ export const GlobalCss = createGlobalStyle`
   }
 
   body {
-    background-color: ${cores.corDeFundo};
+    background-color: #e2e2e2;
   }
 
   .container {
-  max-width: 1024px;
   width: 100%;
   margin: 0 auto;
-
-    @media (max-width: ${breakpoints.desktop}) {
-        max-width: 80%;
-    }
   }
+`
 
-  button {
-    border: none;
-  }
+export const Container = styled.div`
+  display: grid;
+  grid-template-columns: 200px auto;
+  grid-gap: 16px;
+  height: 100vh;
+  padding: 16px;
 `

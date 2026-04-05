@@ -1,24 +1,50 @@
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { cores } from '../../styles'
+import { Banknote } from 'lucide-react'
 
-export const ButtonContainer = styled.button`
+type BotaoProps = {
+  $variant: 'primary' | 'secondary'
+  $ativo?: boolean
+}
+
+type IconProps = {
+  $ativo?: boolean
+  $tipo?: 'saldo' | 'conta'
+}
+
+export const Botao = styled.button<BotaoProps>`
+  background-color: ${({ $variant, $ativo }) =>
+    $variant === 'secondary' ? ($ativo ? '#fff' : '#ebebebd7') : '#28282e'};
+  color: ${({ $variant, $ativo }) =>
+    $variant === 'secondary' ? ($ativo ? '#000' : '#0000008a') : '#dddddd'};
+  border: ${({ $variant }) => ($variant === 'secondary' ? 'none' : '')};
+  border-radius: 6px;
+  padding: 10px 16px;
   font-size: 14px;
-  font-weight: bold;
-  padding: 4px 6px;
-  color: ${cores.vermelhoClaro};
-  background-color: ${cores.bege};
-  display: inline-block;
-  margin-right: 8px;
+  max-width: 300px;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
+  box-shadow: ${({ $ativo }) =>
+    $ativo ? 'rgba(0, 0, 0, 0.24) 0px 3px 8px' : 'none'};
+  transition: ${({ $variant }) =>
+    $variant === 'secondary' ? '' : '0.3s ease'};
+
+  &:hover {
+    transform: ${({ $variant }) =>
+      $variant === 'secondary' ? '' : 'scale(1.1)'};
+    transition: ${({ $variant }) =>
+      $variant === 'secondary' ? '' : '0.3s ease'};
+  }
 `
 
-export const ButtonLink = styled(Link)`
-  font-size: 14px;
-  font-weight: bold;
-  padding: 4px 6px;
-  color: ${cores.bege};
-  background-color: ${cores.vermelhoClaro};
-  display: inline-block;
-  margin-right: 8px;
+export const Icon = styled(Banknote)<IconProps>`
+  height: 20px;
+
+  color: ${({ $tipo }) => ($tipo === 'conta' ? '#e98080' : '#7dd367')};
+
+  opacity: ${({ $ativo }) => ($ativo ? 1 : 0.5)};
 `

@@ -1,28 +1,25 @@
-import { ReactNode } from 'react'
-import { ButtonContainer, ButtonLink } from './styles'
+import { Botao, Icon } from './styles'
 
-type Props =
-  | {
-      children: ReactNode
-      type: 'link'
-      to: string
-    }
-  | {
-      children: ReactNode
-      type: 'button'
-      onClick?: () => void
-    }
-
-const Button = (props: Props) => {
-  if (props.type === 'link') {
-    return <ButtonLink to={props.to}>{props.children}</ButtonLink>
-  }
-
-  return (
-    <ButtonContainer type="button" onClick={props.onClick}>
-      {props.children}
-    </ButtonContainer>
-  )
+export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: 'primary' | 'secondary'
+  onClick?: () => void
+  children?: React.ReactNode
+  ativo?: boolean
+  tipo?: 'saldo' | 'conta'
 }
 
+const Button = ({
+  children,
+  onClick,
+  variant = 'primary',
+  ativo,
+  tipo
+}: Props) => {
+  return (
+    <Botao onClick={onClick} $variant={variant} $ativo={ativo}>
+      {variant === 'secondary' && <Icon $ativo={ativo} $tipo={tipo} />}
+      {children}
+    </Botao>
+  )
+}
 export default Button
