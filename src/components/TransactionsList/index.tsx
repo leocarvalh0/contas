@@ -1,17 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux'
-import * as S from './styles'
-import { RootReducer } from '../../store'
-import { remover } from '../../store/reducers/lancamentos'
 
-const ListaDeContas = () => {
-  const { itens } = useSelector((state: RootReducer) => state.lancamentos)
+import { RootReducer } from '../../store'
+import { remove } from '../../store/reducers/transactions'
+
+import * as S from './styles'
+
+const TransactionsList = () => {
+  const { items } = useSelector((state: RootReducer) => state.transactions)
   const dispatch = useDispatch()
 
   const removeItem = (id: number) => {
-    dispatch(remover(id))
+    dispatch(remove(id))
   }
 
-  const contas = itens.filter((item) => item.tipo === 'saida')
+  const expenses = items.filter((item) => item.type === 'expense')
 
   return (
     <>
@@ -26,11 +28,11 @@ const ListaDeContas = () => {
             <span>Vencimento</span>
             <span>Categoria</span>
           </header>
-          {contas.map((item) => (
+          {expenses.map((item) => (
             <S.Infos key={item.id}>
-              <span>{item.descricao}</span>
-              <span>R$ {item.valor}</span>
-              <span>{item.data}</span>
+              <span>{item.description}</span>
+              <span>R$ {item.amount}</span>
+              <span>{item.date}</span>
               <span>Casa</span>
               <S.DeleteIcon onClick={() => removeItem(item.id)} />
             </S.Infos>
@@ -41,4 +43,4 @@ const ListaDeContas = () => {
   )
 }
 
-export default ListaDeContas
+export default TransactionsList

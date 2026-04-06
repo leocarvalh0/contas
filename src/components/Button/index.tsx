@@ -1,25 +1,25 @@
-import { Botao, Icon } from './styles'
+import { ButtonContainer, Icon } from './styles'
 
 export type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'secondary'
-  onClick?: () => void
-  children?: React.ReactNode
-  ativo?: boolean
-  tipo?: 'saldo' | 'conta'
+  active?: boolean
+  typeIcon?: 'income' | 'expense'
 }
 
 const Button = ({
   children,
   onClick,
   variant = 'primary',
-  ativo,
-  tipo
+  active,
+  typeIcon
 }: Props) => {
   return (
-    <Botao onClick={onClick} $variant={variant} $ativo={ativo}>
-      {variant === 'secondary' && <Icon $ativo={ativo} $tipo={tipo} />}
+    <ButtonContainer onClick={onClick} $variant={variant} $active={active}>
+      {variant === 'secondary' && (
+        <Icon $active={active} $typeIcon={typeIcon} />
+      )}
       {children}
-    </Botao>
+    </ButtonContainer>
   )
 }
 export default Button

@@ -1,21 +1,21 @@
 import styled from 'styled-components'
 import { Banknote } from 'lucide-react'
 
-type BotaoProps = {
+type ButtonProps = {
   $variant: 'primary' | 'secondary'
-  $ativo?: boolean
+  $active?: boolean
 }
 
 type IconProps = {
-  $ativo?: boolean
-  $tipo?: 'saldo' | 'conta'
+  $active?: boolean
+  $typeIcon?: 'income' | 'expense'
 }
 
-export const Botao = styled.button<BotaoProps>`
-  background-color: ${({ $variant, $ativo }) =>
-    $variant === 'secondary' ? ($ativo ? '#fff' : '#ebebebd7') : '#28282e'};
-  color: ${({ $variant, $ativo }) =>
-    $variant === 'secondary' ? ($ativo ? '#000' : '#0000008a') : '#dddddd'};
+export const ButtonContainer = styled.button<ButtonProps>`
+  background-color: ${({ $variant, $active }) =>
+    $variant === 'secondary' ? ($active ? '#fff' : '#ebebebd7') : '#28282e'};
+  color: ${({ $variant, $active }) =>
+    $variant === 'secondary' ? ($active ? '#000' : '#0000008a') : '#dddddd'};
   border: ${({ $variant }) => ($variant === 'secondary' ? 'none' : '')};
   border-radius: 6px;
   padding: 10px 16px;
@@ -28,8 +28,8 @@ export const Botao = styled.button<BotaoProps>`
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  box-shadow: ${({ $ativo }) =>
-    $ativo ? 'rgba(0, 0, 0, 0.24) 0px 3px 8px' : 'none'};
+  box-shadow: ${({ $active }) =>
+    $active ? 'rgba(0, 0, 0, 0.24) 0px 3px 8px' : 'none'};
   transition: ${({ $variant }) =>
     $variant === 'secondary' ? '' : '0.3s ease'};
 
@@ -44,7 +44,8 @@ export const Botao = styled.button<BotaoProps>`
 export const Icon = styled(Banknote)<IconProps>`
   height: 20px;
 
-  color: ${({ $tipo }) => ($tipo === 'conta' ? '#e98080' : '#7dd367')};
+  color: ${({ $typeIcon }) =>
+    $typeIcon === 'expense' ? '#e98080' : '#7dd367'};
 
-  opacity: ${({ $ativo }) => ($ativo ? 1 : 0.5)};
+  opacity: ${({ $active }) => ($active ? 1 : 0.5)};
 `

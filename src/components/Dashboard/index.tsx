@@ -1,38 +1,41 @@
-import { useSelector } from 'react-redux'
-import Card from '../Card'
-import ListaDeContas from '../ListaDeContas'
-import * as S from './styles'
-import { RootReducer } from '../../store'
 import { useState } from 'react'
-import FormularioSaldo from '../FormularioSaldo'
-import FormularioConta from '../FormularioConta'
+import { useSelector } from 'react-redux'
+
+import { RootReducer } from '../../store'
+
+import Card from '../Card'
+import TransactionsList from '../TransactionsList'
+import IncomeForm from '../IncomeForm'
+import ExpenseForm from '../ExpenseForm'
 import Button from '../Button'
 
+import * as S from './styles'
+
 const Dashboard = () => {
-  const { itens } = useSelector((state: RootReducer) => state.lancamentos)
+  const { items } = useSelector((state: RootReducer) => state.transactions)
   const [isVisible, setIsVisible] = useState(false)
-  const [tipo, setTipo] = useState('saldo')
+  const [type, setType] = useState<'income' | 'expense'>('income')
 
   const getResumo = () => {
-    let entrada = 0
-    let saida = 0
+    let income = 0
+    let expense = 0
 
-    itens.forEach((item) => {
-      if (item.tipo === 'entrada') {
-        entrada += item.valor
+    items.forEach((item) => {
+      if (item.type === 'income') {
+        income += item.amount
       } else {
-        saida += item.valor
+        expense += item.amount
       }
     })
 
     return {
-      entrada,
-      saida,
-      saldo: entrada - saida
+      income,
+      expense,
+      balance: income - expense
     }
   }
 
-  const { entrada, saida, saldo } = getResumo()
+  const { income, expense, balance } = getResumo()
 
   const closeModal = () => {
     setIsVisible(false)
@@ -52,16 +55,16 @@ const Dashboard = () => {
         <S.CardList>
           <ul>
             <li>
-              <Card title="Saldo em conta" value={entrada} color="#E6F0FF" />
+              <Card title="Saldo em conta" value={income} color="#E6F0FF" />
             </li>
             <li>
-              <Card title="Contas do mês" value={saida} color="#FFE6E6" />
+              <Card title="Contas do mês" value={expense} color="#FFE6E6" />
             </li>
             <li>
               <Card title="Investimentos" value={0} color="#F6EFE3" />
             </li>
             <li>
-              <Card title="Saldo final" value={saldo} color="#E6F6E3" />
+              <Card title="Saldo final" value={balance} color="#E6F6E3" />
             </li>
           </ul>
         </S.CardList>
@@ -75,29 +78,29 @@ const Dashboard = () => {
           <S.ButtonContainer>
             <Button
               variant="secondary"
-              ativo={tipo === 'saldo'}
-              onClick={() => setTipo('saldo')}
-              tipo="saldo"
+              active={type === 'income'}
+              onClick={() => setType('income')}
+              typeIcon="income"
             >
               Saldo
             </Button>
             <Button
               variant="secondary"
-              ativo={tipo === 'conta'}
-              onClick={() => setTipo('conta')}
-              tipo="conta"
+              active={type === 'expense'}
+              onClick={() => setType('expense')}
+              typeIcon="expense"
             >
               Conta
             </Button>
           </S.ButtonContainer>
-          {tipo === 'saldo' ? (
-            <FormularioSaldo onClose={closeModal} />
+          {type === 'income' ? (
+            <IncomeForm onClose={closeModal} />
           ) : (
-            <FormularioConta onClose={closeModal} />
+            <ExpenseForm onClose={closeModal} />
           )}
         </S.ModalContent>
       </S.Modal>
-      <ListaDeContas />
+      <TransactionsList />
     </S.Container>
   )
 }

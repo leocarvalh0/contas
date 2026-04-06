@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import lancamentos from './reducers/lancamentos'
+import transactions from './reducers/transactions'
 
 const store = configureStore({
   reducer: {
-    lancamentos: lancamentos
+    transactions: transactions
   }
 })
 
